@@ -1,7 +1,7 @@
 package example._7_supervisor_orchestration
 
-import _4_parallel_workflow.{HrCvReviewer, ManagerCvReviewer, TeamMemberCvReviewer}
-import _5_conditional_workflow.{EmailAssistant, InterviewOrganizer, OrganizingTools}
+import example._4_parallel_workflow.{HrCvReviewer, ManagerCvReviewer, TeamMemberCvReviewer}
+import example._5_conditional_workflow.{EmailAssistant, InterviewOrganizer, OrganizingTools}
 import dev.langchain4j.agentic.AgenticServices
 import dev.langchain4j.agentic.scope.ResultWithAgenticScope
 import dev.langchain4j.agentic.supervisor.{SupervisorContextStrategy, SupervisorResponseStrategy}

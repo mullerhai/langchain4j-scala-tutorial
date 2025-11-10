@@ -1,6 +1,6 @@
 package example._5_conditional_workflow
 
-import _4_parallel_workflow.ManagerCvReviewer
+import example._4_parallel_workflow.ManagerCvReviewer
 import dev.langchain4j.agentic.scope.AgenticScope
 import dev.langchain4j.agentic.{AgenticServices, UntypedAgent}
 import dev.langchain4j.model.chat.ChatModel

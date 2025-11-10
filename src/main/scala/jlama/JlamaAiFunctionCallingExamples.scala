@@ -47,7 +47,7 @@ object JlamaAiFunctionCallingExample {
   }
 
   object Payment_Transaction_Tool {
-    def build = new JlamaAiFunctionCallingExamples.Payment_Transaction_Tool
+    def build = new JlamaAiFunctionCallingExample.Payment_Transaction_Tool
     // Tool to be executed by mistral model to get payment status
     @Tool(Array("Get payment status of a transaction")) // function description 
     def retrievePaymentStatus(@P("Transaction id to search payment data")  transactionId: String): String =  { return getPaymentDataField(transactionId, "payment_status")}

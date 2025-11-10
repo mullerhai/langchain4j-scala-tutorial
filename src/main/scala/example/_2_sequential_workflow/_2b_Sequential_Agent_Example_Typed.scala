@@ -37,13 +37,14 @@ object _2b_Sequential_Agent_Example_Typed {
     val lifeStory = StringLoader.loadFromResource("/documents/user_life_story.txt")
     val instructions = "Adapt the CV to the job description below." + StringLoader.loadFromResource("/documents/job_description_backend.txt")
     // 5. Build the typed sequence with custom output handling
-    val bothCvsAndLifeStory2 = util.Map.of("lifeStory", agenticScope.readState("lifeStory", ""), "masterCv", agenticScope.readState("masterCv", ""), "tailoredCv", agenticScope.readState("tailoredCv", ""))
+//    val bothCvsAndLifeStory2 = Map("lifeStory"-> agenticScope.readState("lifeStory", ""), "masterCv" -> agenticScope.readState("masterCv", ""), "tailoredCv" -> agenticScope.readState("tailoredCv", ""))
 
     val sequenceCvGenerator = AgenticServices.sequenceBuilder(classOf[SequenceCvGenerator]).subAgents(cvGenerator, cvTailor).outputKey("bothCvsAndLifeStory")
       .output(
         (agenticScope) => {
           // any method is possible, but we collect some internal variables.
-          bothCvsAndLifeStory2
+//          bothCvsAndLifeStory2
+          Map("lifeStory"-> agenticScope.readState("lifeStory", ""), "masterCv" -> agenticScope.readState("masterCv", ""), "tailoredCv" -> agenticScope.readState("tailoredCv", ""))
         }
       ).
       build() // here we specify the typed interface.subAgents(cvGenerator, cvTailor).outputKey("bothCvsAndLifeStory").output((agenticScope) => {

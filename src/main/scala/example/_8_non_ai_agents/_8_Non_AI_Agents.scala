@@ -1,7 +1,7 @@
 package example._8_non_ai_agents
 
-import _4_parallel_workflow.{HrCvReviewer, ManagerCvReviewer, TeamMemberCvReviewer}
-import _5_conditional_workflow.{EmailAssistant, InterviewOrganizer, OrganizingTools}
+import example._4_parallel_workflow.{HrCvReviewer, ManagerCvReviewer, TeamMemberCvReviewer}
+import example._5_conditional_workflow.{EmailAssistant, InterviewOrganizer, OrganizingTools}
 import dev.langchain4j.agentic.scope.AgenticScope
 import dev.langchain4j.agentic.{AgenticServices, UntypedAgent}
 import dev.langchain4j.agentic.supervisor.{SupervisorAgent, SupervisorContextStrategy, SupervisorResponseStrategy}
