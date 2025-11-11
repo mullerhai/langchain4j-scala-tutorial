@@ -7,6 +7,20 @@ lazy val root = (project in file("."))
     name := "langchain4j-scala-tutorial"
   )
 
+// https://mvnrepository.com/artifact/com.agentsflex/agents-flex-llm-vllm
+libraryDependencies += "com.agentsflex" % "agents-flex-llm-vllm" % "1.4.1"
+// https://mvnrepository.com/artifact/com.openai/openai-java
+libraryDependencies += "com.openai" % "openai-java" % "4.7.1"
+// https://mvnrepository.com/artifact/com.softwaremill.sttp.ai/openai
+libraryDependencies += "com.softwaremill.sttp.ai" %% "openai" % "0.4.1"
+// https://mvnrepository.com/artifact/io.cequence/openai-scala-core
+libraryDependencies += "io.cequence" %% "openai-scala-core" % "1.3.0.RC.1"
+// https://mvnrepository.com/artifact/io.cequence/openai-scala-client
+libraryDependencies += "io.cequence" %% "openai-scala-client" % "1.3.0.RC.1"
+// https://mvnrepository.com/artifact/de.dfki.mary/marytts-common
+libraryDependencies += "de.dfki.mary" % "marytts-common" % "5.2.1"
+// https://mvnrepository.com/artifact/de.dfki.mary/marytts-runtime
+libraryDependencies += "de.dfki.mary" % "marytts-runtime" % "5.2.1"
 libraryDependencies += "com.langfuse" % "langfuse-java" % "0.1.0"
 // https://mvnrepository.com/artifact/im.arun/toon4j
 libraryDependencies += "im.arun" % "toon4j" % "1.1.0"
