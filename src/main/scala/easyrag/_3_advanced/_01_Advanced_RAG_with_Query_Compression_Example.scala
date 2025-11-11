@@ -5,6 +5,7 @@ import dev.langchain4j.data.document.loader.FileSystemDocumentLoader.loadDocumen
 import dev.langchain4j.data.document.parser.TextDocumentParser
 import dev.langchain4j.data.document.splitter.DocumentSplitters
 import dev.langchain4j.data.segment.TextSegment
+import dev.langchain4j.http.client.spring.restclient.SpringRestClientBuilderFactory
 import dev.langchain4j.memory.chat.MessageWindowChatMemory
 import dev.langchain4j.model.chat.ChatModel
 import dev.langchain4j.model.embedding.EmbeddingModel
@@ -18,6 +19,7 @@ import dev.langchain4j.service.AiServices
 import dev.langchain4j.store.embedding.{EmbeddingStore, EmbeddingStoreIngestor}
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore
 import easyrag.shared.{Assistant, Utils}
+import tutorial.ApiKeys
 
 object _01_Advanced_RAG_with_Query_Compression_Example {
   /**
@@ -59,7 +61,15 @@ object _01_Advanced_RAG_with_Query_Compression_Example {
     val embeddingStore = new InMemoryEmbeddingStore[TextSegment]
     val ingestor = EmbeddingStoreIngestor.builder.documentSplitter(DocumentSplitters.recursive(300, 0)).embeddingModel(embeddingModel).embeddingStore(embeddingStore).build
     ingestor.ingest(document)
-    val chatModel = OpenAiChatModel.builder.apiKey(Utils.OPENAI_API_KEY).modelName(GPT_4_O_MINI).build
+    val chatModel = OpenAiChatModel.builder
+      .baseUrl(ApiKeys.BASE_URL)
+      .apiKey(ApiKeys.OPENAI_API_KEY)
+      .modelName(ApiKeys.MODEL_NAME) //GPT_4_O_MINI)
+      .temperature(0.3)
+//      .timeout(ofSeconds(60))
+      .logRequests(true)
+      .httpClientBuilder(new SpringRestClientBuilderFactory().create())
+      .logResponses(true).build
     // We will create a CompressingQueryTransformer, which is responsible for compressing
     // the user's query and the preceding conversation into a single, stand-alone query.
     // This should significantly improve the quality of the retrieval process.

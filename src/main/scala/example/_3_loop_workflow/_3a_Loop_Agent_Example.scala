@@ -28,10 +28,10 @@ object _3a_Loop_Agent_Examples {
     // 3. Create all agents using AgenticServices
     val cvReviewer = AgenticServices
       .agentBuilder(classOf[CvReviewer])
-      .chatModel(CHAT_MODEL).outputKey("cvReview") // this gets updated in every iteration with new feedback for the next tailoring.build
+      .chatModel(CHAT_MODEL).outputKey("cvReview").build() // this gets updated in every iteration with new feedback for the next tailoring.build
     val scoredCvTailor = AgenticServices
       .agentBuilder(classOf[ScoredCvTailor])
-      .chatModel(CHAT_MODEL).outputKey("cv") // this will be updated in every iteration, continuously improving the CV.build
+      .chatModel(CHAT_MODEL).outputKey("cv").build() // this will be updated in every iteration, continuously improving the CV.build
     // 4. Build the sequence
     val reviewedCvGenerator:UntypedAgent  = AgenticServices
       .loopBuilder()// use UntypedAgent unless you define the resulting composed agent, see _2_Sequential_Agent_Example.loopBuilder

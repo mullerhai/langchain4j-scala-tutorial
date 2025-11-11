@@ -1,5 +1,6 @@
 package example._10_gpu_example
 
+import dev.langchain4j.http.client.spring.restclient.SpringRestClientBuilderFactory
 import dev.langchain4j.mcp.McpToolProvider
 import dev.langchain4j.mcp.client.transport.McpTransport
 import dev.langchain4j.mcp.client.transport.http.HttpMcpTransport
@@ -8,6 +9,7 @@ import dev.langchain4j.model.chat.ChatModel
 import dev.langchain4j.model.openai.OpenAiChatModel
 import dev.langchain4j.service.AiServices
 import dev.langchain4j.service.tool.ToolProvider
+import tutorial.ApiKeys
 
 import java.time.Duration
 import java.util
@@ -27,7 +29,9 @@ object McpToolsExampleOverHttp {
    */
   @throws[Exception]
   def main(args: Array[String]): Unit = {
-    val model = OpenAiChatModel.builder.apiKey(System.getenv("OPENAI_API_KEY")).modelName("gpt-4o-mini").logRequests(true).logResponses(true).build
+    val model = OpenAiChatModel.builder.baseUrl(ApiKeys.BASE_URL).apiKey(ApiKeys.OPENAI_API_KEY).modelName(ApiKeys.MODEL_NAME).httpClientBuilder(new SpringRestClientBuilderFactory().create()).logRequests(true).logResponses(true).build
+
+//    val model = OpenAiChatModel.builder.apiKey(System.getenv("OPENAI_API_KEY")).modelName("gpt-4o-mini").logRequests(true).logResponses(true).build
     val transport = new HttpMcpTransport.Builder().sseUrl("http://localhost:3001/sse").timeout(Duration.ofSeconds(60)).logRequests(true).logResponses(true).build
     val mcpClient = new DefaultMcpClient.Builder().transport(transport).build
     val toolProvider = McpToolProvider.builder.mcpClients(util.List.of(mcpClient)).build

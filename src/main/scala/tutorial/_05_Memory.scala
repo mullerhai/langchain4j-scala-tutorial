@@ -2,6 +2,7 @@ package tutorial
 
 import dev.langchain4j.data.message.UserMessage.userMessage
 import dev.langchain4j.data.message.{AiMessage, SystemMessage, UserMessage}
+import dev.langchain4j.http.client.spring.restclient.SpringRestClientBuilderFactory
 import dev.langchain4j.memory.ChatMemory
 import dev.langchain4j.memory.chat.TokenWindowChatMemory
 import dev.langchain4j.model.chat.response.{ChatResponse, StreamingChatResponseHandler}
@@ -14,7 +15,12 @@ object _05_Memory {
   @throws[ExecutionException]
   @throws[InterruptedException]
   def main(args: Array[String]): Unit = {
-    val model = OpenAiStreamingChatModel.builder.apiKey(ApiKeys.OPENAI_API_KEY).modelName(GPT_4_O_MINI).build
+    val model = OpenAiStreamingChatModel.builder
+      .baseUrl(ApiKeys.BASE_URL)
+      .apiKey(ApiKeys.OPENAI_API_KEY)
+      .modelName(ApiKeys.MODEL_NAME) //GPT_4_O_MINI)
+      .httpClientBuilder(new SpringRestClientBuilderFactory().create())
+      .build
     val chatMemory = TokenWindowChatMemory.withMaxTokens(1000, new OpenAiTokenCountEstimator(GPT_4_O_MINI))
     val systemMessage = SystemMessage.from("You are a senior developer explaining to another senior developer, " + "the project you are working on is an e-commerce platform with Java back-end, " + "Oracle database, and Spring Data JPA")
     chatMemory.add(systemMessage)

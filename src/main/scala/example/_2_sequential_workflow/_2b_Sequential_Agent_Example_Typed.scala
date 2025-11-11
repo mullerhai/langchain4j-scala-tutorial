@@ -17,12 +17,13 @@ object _2b_Sequential_Agent_Example_Typed {
    * - retrieve and inspect the AgenticScope after invocation, for debugging or testing purposes
    */
   // 1. Define the model that will power the agents
-  
 
+
+  val CHAT_MODEL = ChatModelProvider.createChatModel
   CustomLogging.setLevel(LogLevels.PRETTY, 150)
   @throws[IOException]
   def main(args: Array[String]): Unit = {
-    val CHAT_MODEL = ChatModelProvider.createChatModel
+
     // 2. Define the sequential agent interface in this package:
     //      - SequenceCvGenerator.java
     // with method signature:

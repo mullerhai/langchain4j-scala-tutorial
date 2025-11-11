@@ -3,6 +3,7 @@ package easyrag._1_easy
 import dev.langchain4j.data.document.Document
 import dev.langchain4j.data.document.loader.FileSystemDocumentLoader.loadDocuments
 import dev.langchain4j.data.segment.TextSegment
+import dev.langchain4j.http.client.spring.restclient.SpringRestClientBuilderFactory
 import dev.langchain4j.memory.chat.MessageWindowChatMemory
 import dev.langchain4j.model.chat.ChatModel
 import dev.langchain4j.model.openai.OpenAiChatModel
@@ -12,11 +13,21 @@ import dev.langchain4j.service.AiServices
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore
 import easyrag.shared.{Assistant, Utils}
+import tutorial.ApiKeys
 
+import java.time.Duration.ofSeconds
 import java.util
 
 object Easy_RAG_Example {
-  private val CHAT_MODEL = OpenAiChatModel.builder.apiKey(Utils.OPENAI_API_KEY).modelName(GPT_4_O_MINI).build
+  private val CHAT_MODEL = OpenAiChatModel.builder
+    .baseUrl(ApiKeys.BASE_URL)
+    .apiKey(ApiKeys.OPENAI_API_KEY)
+    .modelName(ApiKeys.MODEL_NAME) //GPT_4_O_MINI)
+    .temperature(0.3)
+    .timeout(ofSeconds(60))
+    .logRequests(true)
+    .httpClientBuilder(new SpringRestClientBuilderFactory().create())
+    .logResponses(true).build//  OpenAiChatModel.builder.apiKey(Utils.OPENAI_API_KEY).modelName(GPT_4_O_MINI).build
 
   /**
    * This example demonstrates how to implement an "Easy RAG" (Retrieval-Augmented Generation) application.
@@ -40,7 +51,7 @@ object Easy_RAG_Example {
 
   private def createContentRetriever(documents: util.List[Document]) = {
     // Here, we create an empty in-memory store for our documents and their embeddings.
-    val embeddingStore = new InMemoryEmbeddingStore[TextSegment]
+    val embeddingStore = new InMemoryEmbeddingStore[TextSegment]()
     // Here, we are ingesting our documents into the store.
     // Under the hood, a lot of "magic" is happening, but we can ignore it for now.
     EmbeddingStoreIngestor.ingest(documents, embeddingStore)

@@ -6,6 +6,7 @@ import dev.langchain4j.data.document.parser.TextDocumentParser
 import dev.langchain4j.data.document.splitter.DocumentSplitters
 import dev.langchain4j.data.embedding.Embedding
 import dev.langchain4j.data.segment.TextSegment
+import dev.langchain4j.http.client.spring.restclient.SpringRestClientBuilderFactory
 import dev.langchain4j.memory.chat.MessageWindowChatMemory
 import dev.langchain4j.model.chat.ChatModel
 import dev.langchain4j.model.embedding.EmbeddingModel
@@ -24,6 +25,7 @@ import dev.langchain4j.web.search.tavily.TavilyWebSearchEngine
 import java.nio.file.Path
 import java.util
 import easyrag.shared.{Assistant, Utils}
+import tutorial.ApiKeys
 object _08_Advanced_RAG_Web_Search_Example {
   /**
    * Please refer to {@link Naive_RAG_Example} for a basic context.
@@ -50,7 +52,15 @@ object _08_Advanced_RAG_Web_Search_Example {
     // Let's create a query router that will route each query to both retrievers.
     val queryRouter = new DefaultQueryRouter(embeddingStoreContentRetriever, webSearchContentRetriever)
     val retrievalAugmentor = DefaultRetrievalAugmentor.builder.queryRouter(queryRouter).build
-    val model = OpenAiChatModel.builder.apiKey(Utils.OPENAI_API_KEY).modelName(GPT_4_O_MINI).build
+    val model = OpenAiChatModel.builder
+        .baseUrl(ApiKeys.BASE_URL)
+        .apiKey(ApiKeys.OPENAI_API_KEY)
+        .modelName(ApiKeys.MODEL_NAME) //GPT_4_O_MINI)
+        .temperature(0.3)
+//      .timeout(ofSeconds(60))
+        .logRequests(true)
+        .httpClientBuilder(new SpringRestClientBuilderFactory().create())
+        .logResponses(true).build
     AiServices.builder(classOf[Assistant]).chatModel(model).retrievalAugmentor(retrievalAugmentor).chatMemory(MessageWindowChatMemory.withMaxMessages(10)).build
   }
 

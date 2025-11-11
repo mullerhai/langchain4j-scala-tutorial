@@ -1,6 +1,7 @@
 package tutorial
 
 import dev.langchain4j.data.message.{AiMessage, ChatMessage, UserMessage}
+import dev.langchain4j.http.client.spring.restclient.SpringRestClientBuilderFactory
 import dev.langchain4j.model.chat.response.{ChatResponse, StreamingChatResponseHandler}
 import dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI
 import dev.langchain4j.model.openai.OpenAiStreamingChatModel
@@ -11,7 +12,13 @@ import java.util.concurrent.CompletableFuture
 
 object _06_FewShot {
   def main(args: Array[String]): Unit = {
-    val model = OpenAiStreamingChatModel.builder.apiKey(ApiKeys.OPENAI_API_KEY).modelName(GPT_4_O_MINI).timeout(ofSeconds(100)).build
+    val model = OpenAiStreamingChatModel.builder
+      .baseUrl(ApiKeys.BASE_URL)
+      .apiKey(ApiKeys.OPENAI_API_KEY)
+      .modelName(ApiKeys.MODEL_NAME) //GPT_4_O_MINI)
+      .timeout(ofSeconds(100))
+      .httpClientBuilder(new SpringRestClientBuilderFactory().create())
+      .build
     val fewShotHistory = new util.ArrayList[ChatMessage]
     // Adding positive feedback example to history
     fewShotHistory.add(UserMessage.from("I love the new update! The interface is very user-friendly and the new features are amazing!"))

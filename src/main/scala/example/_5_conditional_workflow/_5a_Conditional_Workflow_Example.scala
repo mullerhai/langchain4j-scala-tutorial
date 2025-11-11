@@ -18,7 +18,7 @@ object _5a_Conditional_Workflow_Examples {
    * - invoke an agent that prepares everything for an on-site interview with the candidate
    * - invoke an agent that sends a kind email that we will not move forward*
    */
-    private val CHAT_MODEL = ChatModelProvider.createChatModel
+  private val CHAT_MODEL = ChatModelProvider.createChatModel
   try CustomLogging.setLevel(LogLevels.PRETTY, 200) // control how much you see from the model calls
 
   @throws[IOException]
@@ -83,3 +83,7 @@ object _5a_Conditional_Workflow_Examples {
   }
 
 }
+
+//Exception in thread "main" java.lang.ClassCastException: class jdk.proxy2.$Proxy15 cannot be cast to class dev.langchain4j.agentic.internal.AgentExecutor (jdk.proxy2.$Proxy15 is in module jdk.proxy2 of loader 'app'; dev.langchain4j.agentic.internal.AgentExecutor is in unnamed module of loader 'app')
+//	at example._5_conditional_workflow._5a_Conditional_Workflow_Examples$.main(_5a_Conditional_Workflow_Example.scala:40)
+//	at example._5_conditional_workflow._5a_Conditional_Workflow_Examples.main(_5a_Conditional_Workflow_Example.scala)

@@ -6,6 +6,7 @@ import dev.langchain4j.data.document.parser.TextDocumentParser
 import dev.langchain4j.data.document.splitter.DocumentSplitters
 import dev.langchain4j.data.embedding.Embedding
 import dev.langchain4j.data.segment.TextSegment
+import dev.langchain4j.http.client.spring.restclient.SpringRestClientBuilderFactory
 import dev.langchain4j.memory.ChatMemory
 import dev.langchain4j.memory.chat.MessageWindowChatMemory
 import dev.langchain4j.model.chat.ChatModel
@@ -18,6 +19,7 @@ import dev.langchain4j.service.AiServices
 import dev.langchain4j.store.embedding.EmbeddingStore
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore
 import easyrag.shared.{Assistant, Utils}
+import tutorial.ApiKeys
 
 import java.util
 
@@ -49,7 +51,16 @@ object Naive_RAG_Example {
     // First, let's create a chat model, also known as a LLM, which will answer our queries.
     // In this example, we will use OpenAI's gpt-4o-mini, but you can choose any supported model.
     // Langchain4j currently supports more than 10 popular LLM providers.
-    val chatModel = OpenAiChatModel.builder.apiKey(Utils.OPENAI_API_KEY).modelName(GPT_4_O_MINI).build
+    val chatModel = OpenAiChatModel.builder
+      .baseUrl(ApiKeys.BASE_URL)
+      .apiKey(ApiKeys.OPENAI_API_KEY)
+      .modelName(ApiKeys.MODEL_NAME) //GPT_4_O_MINI)
+      .temperature(0.3)
+//      .timeout(ofSeconds(60))
+      .logRequests(true)
+      .httpClientBuilder(new SpringRestClientBuilderFactory().create())
+      .logResponses(true).build
+//      .apiKey(Utils.OPENAI_API_KEY).modelName(GPT_4_O_MINI).build
     // Now, let's load a document that we want to use for RAG.
     // We will use the terms of use from an imaginary car rental company, "Miles of Smiles".
     // For this example, we'll import only a single document, but you can load as many as you need.

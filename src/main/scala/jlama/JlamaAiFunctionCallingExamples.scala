@@ -27,6 +27,7 @@ object JlamaAiFunctionCallingExample {
       def chat(userMessage: String): String
     }
 
+//    @main
     def main(args: Array[String]): Unit = {
       // STEP 1: User specify tools and query
       // User define all the necessary tools to be used in the chat

@@ -1,5 +1,6 @@
 package tutorial
 
+import dev.langchain4j.http.client.spring.restclient.SpringRestClientBuilderFactory
 import dev.langchain4j.memory.ChatMemory
 import dev.langchain4j.memory.chat.MessageWindowChatMemory
 import dev.langchain4j.model.chat.ChatModel
@@ -8,8 +9,8 @@ import dev.langchain4j.model.openai.OpenAiChatModel
 import dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI
 import dev.langchain4j.model.output.structured.Description
 import dev.langchain4j.service.*
-import tutorial._08_AIServiceExamples.Hotel_Review_AI_Service_Example.IssueCategory.IssueCategory
-import tutorial._08_AIServiceExamples.Sentiment_Extracting_AI_Service_Example.Sentiment.Sentiment
+import tutorial.Hotel_Review_AI_Service_Example.IssueCategory.IssueCategory
+import tutorial.Sentiment_Extracting_AI_Service_Example.Sentiment.Sentiment
 
 import java.math.{BigDecimal, BigInteger}
 import java.time.Duration.ofSeconds
@@ -17,8 +18,14 @@ import java.time.{LocalDate, LocalDateTime, LocalTime}
 import java.util
 import java.util.Arrays.asList
 
-object _08_AIServiceExamples {
-  val model: ChatModel = OpenAiChatModel.builder.apiKey(ApiKeys.OPENAI_API_KEY).modelName(GPT_4_O_MINI).timeout(ofSeconds(60)).build
+//object _08_AIServiceExamples {
+  val model: ChatModel = OpenAiChatModel.builder
+    .baseUrl(ApiKeys.BASE_URL)
+    .apiKey(ApiKeys.OPENAI_API_KEY)
+    .modelName(ApiKeys.MODEL_NAME) //GPT_4_O_MINI)
+    .timeout(ofSeconds(60))
+    .httpClientBuilder(new SpringRestClientBuilderFactory().create())
+    .build
 
   ////////////////// SIMPLE EXAMPLE //////////////////////
   object Simple_AI_Service_Example {
@@ -196,7 +203,12 @@ object _08_AIServiceExamples {
     }
 
     def main(args: Array[String]): Unit = {
-      val model = OpenAiChatModel.builder.apiKey(ApiKeys.OPENAI_API_KEY).modelName(GPT_4_O_MINI).responseFormat("json_schema").strictJsonSchema(true).timeout(ofSeconds(60)).build() // https://docs.langchain4j.dev/integrations/language-models/open-ai#structured-outputs-for-json-mode.timeout(ofSeconds(60)).build
+      val model = OpenAiChatModel.builder.baseUrl(ApiKeys.BASE_URL)
+        .apiKey(ApiKeys.OPENAI_API_KEY)
+        .modelName(ApiKeys.MODEL_NAME) //GPT_4_O_MINI)
+        .httpClientBuilder(new SpringRestClientBuilderFactory().create())
+        .responseFormat("json_schema").strictJsonSchema(true)
+        .timeout(ofSeconds(60)).build() // https://docs.langchain4j.dev/integrations/language-models/open-ai#structured-outputs-for-json-mode.timeout(ofSeconds(60)).build
       val extractor = AiServices.create(classOf[PersonExtractor], model)
       val text = "In 1968, amidst the fading echoes of Independence Day, " + "a child named John arrived under the calm evening sky. " + "This newborn, bearing the surname Doe, marked the start of a new journey."
       val person = extractor.extractPersonFrom(text)
@@ -231,7 +243,15 @@ object _08_AIServiceExamples {
     }
 
     def main(args: Array[String]): Unit = {
-      val model = OpenAiChatModel.builder.apiKey(ApiKeys.OPENAI_API_KEY).modelName(GPT_4_O_MINI).responseFormat("json_schema").strictJsonSchema(true).build() // https://docs.langchain4j.dev/integrations/language-models/open-ai#structured-outputs-for-json-mode.timeout(ofSeconds(60)).build
+      val model = OpenAiChatModel.builder
+        .baseUrl(ApiKeys.BASE_URL)
+        .apiKey(ApiKeys.OPENAI_API_KEY)
+        .modelName(ApiKeys.MODEL_NAME) //GPT_4_O_MINI)
+        .responseFormat("json_schema")
+        .strictJsonSchema(true)
+        .timeout(ofSeconds(60))
+        .httpClientBuilder(new SpringRestClientBuilderFactory().create())
+        .build() // https://docs.langchain4j.dev/integrations/language-models/open-ai#structured-outputs-for-json-mode.timeout(ofSeconds(60)).build
       val chef = AiServices.create(classOf[Chef], model)
       val recipe = chef.createRecipeFrom("cucumber", "tomato", "feta", "onion", "olives", "lemon")
       System.out.println(recipe)
@@ -289,4 +309,4 @@ object _08_AIServiceExamples {
       // Your name is Francine.
     }
   }
-}
+//}

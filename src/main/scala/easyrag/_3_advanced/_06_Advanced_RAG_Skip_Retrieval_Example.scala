@@ -7,6 +7,7 @@ import dev.langchain4j.data.document.splitter.DocumentSplitters
 import dev.langchain4j.data.embedding.Embedding
 import dev.langchain4j.data.message.AiMessage
 import dev.langchain4j.data.segment.TextSegment
+import dev.langchain4j.http.client.spring.restclient.SpringRestClientBuilderFactory
 import dev.langchain4j.memory.chat.MessageWindowChatMemory
 import dev.langchain4j.model.chat.ChatModel
 import dev.langchain4j.model.embedding.EmbeddingModel
@@ -26,6 +27,7 @@ import java.nio.file.Path
 import java.util
 import java.util.Collections.{emptyList, singletonList}
 import easyrag.shared.{Assistant, Utils}
+import tutorial.ApiKeys
 object _06_Advanced_RAG_Skip_Retrieval_Example {
   /**
    * Please refer to {@link Naive_RAG_Example} for a basic context.
@@ -60,7 +62,15 @@ object _06_Advanced_RAG_Skip_Retrieval_Example {
     val embeddingModel = new BgeSmallEnV15QuantizedEmbeddingModel
     val embeddingStore = embed(Utils.toPath("documents/miles-of-smiles-terms-of-use.txt"), embeddingModel)
     val contentRetriever = EmbeddingStoreContentRetriever.builder.embeddingStore(embeddingStore).embeddingModel(embeddingModel).maxResults(2).minScore(0.6).build
-    val chatModel = OpenAiChatModel.builder.apiKey(Utils.OPENAI_API_KEY).modelName(GPT_4_O_MINI).build
+    val chatModel = OpenAiChatModel.builder
+        .baseUrl(ApiKeys.BASE_URL)
+        .apiKey(ApiKeys.OPENAI_API_KEY)
+        .modelName(ApiKeys.MODEL_NAME) //GPT_4_O_MINI)
+        .temperature(0.3)
+//      .timeout(ofSeconds(60))
+        .logRequests(true)
+        .httpClientBuilder(new SpringRestClientBuilderFactory().create())
+        .logResponses(true).build
     // Let's create a query router.
     val queryRouter = new QueryRouter() {
       final private val PROMPT_TEMPLATE = PromptTemplate.from("Is the following query related to the business of the car rental company? " + "Answer only 'yes', 'no' or 'maybe'. " + "Query: {{it}}")

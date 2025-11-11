@@ -2,6 +2,7 @@ package easyrag._3_advanced
 
 import dev.langchain4j.data.document.Metadata.metadata
 import dev.langchain4j.data.segment.TextSegment
+import dev.langchain4j.http.client.spring.restclient.SpringRestClientBuilderFactory
 import dev.langchain4j.model.chat.ChatModel
 import dev.langchain4j.model.embedding.EmbeddingModel
 import dev.langchain4j.model.embedding.onnx.bgesmallenv15q.BgeSmallEnV15QuantizedEmbeddingModel
@@ -21,6 +22,7 @@ import org.junit.jupiter.api.Test
 import scala.jdk.FutureConverters.*
 import java.util.function.Function
 import easyrag.shared.{Assistant, Utils}
+import tutorial.ApiKeys
 
 import scala.jdk.FunctionConverters.enrichAsJavaFunction
 object _05_Advanced_RAG_with_Metadata_Filtering_Examples {
@@ -34,7 +36,15 @@ class _05_Advanced_RAG_with_Metadata_Filtering_Examples {
    * Please refer to {@link Naive_RAG_Example} for a basic context.
    * More information on metadata filtering can be found here: https://github.com/langchain4j/langchain4j/pull/610
    */
-  private[_3_advanced] val chatModel = OpenAiChatModel.builder.apiKey(Utils.OPENAI_API_KEY).modelName(GPT_4_O_MINI).build
+  private[_3_advanced] val chatModel = OpenAiChatModel.builder
+      .baseUrl(ApiKeys.BASE_URL)
+      .apiKey(ApiKeys.OPENAI_API_KEY)
+      .modelName(ApiKeys.MODEL_NAME) //GPT_4_O_MINI)
+      .temperature(0.3)
+//      .timeout(ofSeconds(60))
+      .logRequests(true)
+      .httpClientBuilder(new SpringRestClientBuilderFactory().create())
+      .logResponses(true).build
   private[_3_advanced] val embeddingModel = new BgeSmallEnV15QuantizedEmbeddingModel
 
   @Test private[_3_advanced] def Static_Metadata_Filter_Example(): Unit = {

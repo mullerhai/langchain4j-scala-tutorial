@@ -3,6 +3,7 @@ package tutorial
 import dev.langchain4j.data.message.ChatMessage
 import dev.langchain4j.data.message.ChatMessageDeserializer.messagesFromJson
 import dev.langchain4j.data.message.ChatMessageSerializer.messagesToJson
+import dev.langchain4j.http.client.spring.restclient.SpringRestClientBuilderFactory
 import dev.langchain4j.memory.chat.{ChatMemoryProvider, MessageWindowChatMemory}
 import dev.langchain4j.model.chat.ChatModel
 import dev.langchain4j.model.openai.OpenAiChatModel
@@ -22,7 +23,14 @@ object _09_ServiceWithPersistentMemoryForEachUserExample {
   def main(args: Array[String]): Unit = {
     val store = new _09_ServiceWithPersistentMemoryForEachUserExample.PersistentChatMemoryStore
     val chatMemoryProvider:ChatMemoryProvider = (memoryId: AnyRef) => MessageWindowChatMemory.builder.id(memoryId).maxMessages(10).chatMemoryStore(store).build
-    val model = OpenAiChatModel.builder.apiKey(ApiKeys.OPENAI_API_KEY).modelName(GPT_4_O_MINI).build
+    val model = OpenAiChatModel.builder
+      .baseUrl(ApiKeys.BASE_URL)
+      .apiKey(ApiKeys.OPENAI_API_KEY)
+      .modelName(ApiKeys.MODEL_NAME) //GPT_4_O_MINI)
+//      .timeout(ofSeconds(60))
+      .httpClientBuilder(new SpringRestClientBuilderFactory().create())
+      .build
+
     val assistant = AiServices.builder(classOf[_09_ServiceWithPersistentMemoryForEachUserExample.Assistant]).chatModel(model).chatMemoryProvider(chatMemoryProvider).build
     System.out.println(assistant.chat(1, "Hello, my name is Klaus"))
     System.out.println(assistant.chat(2, "Hi, my name is Francine"))

@@ -6,6 +6,7 @@ import dev.langchain4j.data.document.parser.TextDocumentParser
 import dev.langchain4j.data.document.splitter.DocumentSplitters
 import dev.langchain4j.data.embedding.Embedding
 import dev.langchain4j.data.segment.TextSegment
+import dev.langchain4j.http.client.spring.restclient.SpringRestClientBuilderFactory
 import dev.langchain4j.memory.chat.MessageWindowChatMemory
 import dev.langchain4j.model.chat.ChatModel
 import dev.langchain4j.model.embedding.EmbeddingModel
@@ -19,6 +20,8 @@ import dev.langchain4j.service.AiServices
 import dev.langchain4j.store.embedding.EmbeddingStore
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore
 import easyrag.shared.{Assistant, Utils}
+import tutorial.ApiKeys
+
 import java.nio.file.Path
 import java.util
 
@@ -65,7 +68,15 @@ object _02_Advanced_RAG_with_Query_Routing_Example {
     // Additionally, let's create a separate embedding store dedicated to terms of use.
     val termsOfUseEmbeddingStore = embed(Utils.toPath("documents/miles-of-smiles-terms-of-use.txt"), embeddingModel)
     val termsOfUseContentRetriever = EmbeddingStoreContentRetriever.builder.embeddingStore(termsOfUseEmbeddingStore).embeddingModel(embeddingModel).maxResults(2).minScore(0.6).build
-    val chatModel = OpenAiChatModel.builder.apiKey(Utils.OPENAI_API_KEY).modelName(GPT_4_O_MINI).build
+    val chatModel = OpenAiChatModel.builder
+      .baseUrl(ApiKeys.BASE_URL)
+      .apiKey(ApiKeys.OPENAI_API_KEY)
+      .modelName(ApiKeys.MODEL_NAME) //GPT_4_O_MINI)
+      .temperature(0.3)
+//      .timeout(ofSeconds(60))
+      .logRequests(true)
+      .httpClientBuilder(new SpringRestClientBuilderFactory().create())
+      .logResponses(true).build
     // Let's create a query router.
     val retrieverToDescription = new util.HashMap[ContentRetriever, String]
     retrieverToDescription.put(biographyContentRetriever, "biography of John Doe")

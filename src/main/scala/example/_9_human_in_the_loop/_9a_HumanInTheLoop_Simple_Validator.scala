@@ -42,7 +42,7 @@ object _9a_HumanInTheLoop_Simple_Validators {
                                 Decision to proceed with onsite-interview.
                                 """))
   // 5. Run workflow
-  val finalDecision: String = hiringDecisionWorkflow.invoke(input).asInstanceOf[String]
+  val finalDecision: String = hiringDecisionWorkflow.invoke(input).toString //.asInstanceOf[String]
   System.out.println("\n=== FINAL DECISION BY HUMAN ===")
   System.out.println("(Invite on-site (I), Reject (R), Hold (H))\n")
   System.out.println(finalDecision)

@@ -1,5 +1,6 @@
 package tutorial
 
+import dev.langchain4j.http.client.spring.restclient.SpringRestClientBuilderFactory
 import dev.langchain4j.model.chat.response.{ChatResponse, StreamingChatResponseHandler}
 import dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI
 import dev.langchain4j.model.openai.{OpenAiStreamingChatModel, OpenAiTokenCountEstimator}
@@ -8,7 +9,12 @@ import java.util.concurrent.CompletableFuture
 
 object _04_Streaming {
   def main(args: Array[String]): Unit = {
-    val model = OpenAiStreamingChatModel.builder.apiKey(ApiKeys.OPENAI_API_KEY).modelName(GPT_4_O_MINI).build
+    val model = OpenAiStreamingChatModel.builder
+      .baseUrl(ApiKeys.BASE_URL)
+      .apiKey(ApiKeys.OPENAI_API_KEY)
+      .modelName(ApiKeys.MODEL_NAME) //GPT_4_O_MINI)
+      .httpClientBuilder(new SpringRestClientBuilderFactory().create())
+      .build
     val prompt = "Write a short funny poem about developers and null-pointers, 10 lines maximum"
     System.out.println("Nr of chars: " + prompt.length)
     System.out.println("Nr of tokens: " + new OpenAiTokenCountEstimator(GPT_4_O_MINI).estimateTokenCountInText(prompt))

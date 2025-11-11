@@ -93,3 +93,7 @@ object _3b_Loop_Agent_Example_States_And_Fails {
 
 
 }
+
+//Exception in thread "main" java.lang.NullPointerException: Cannot invoke "domain.CvReview.score()" because "review" is null
+//	at example._3_loop_workflow._3b_Loop_Agent_Example_States_And_Fails$.main(_3b_Loop_Agent_Example_States_And_Fail.scala:86)
+//	at example._3_loop_workflow._3b_Loop_Agent_Example_States_And_Fails.main(_3b_Loop_Agent_Example_States_And_Fail.scala)

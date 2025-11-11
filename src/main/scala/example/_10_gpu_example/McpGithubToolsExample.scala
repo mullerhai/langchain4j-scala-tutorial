@@ -1,5 +1,6 @@
 package example._10_gpu_example
 
+import dev.langchain4j.http.client.spring.restclient.{SpringRestClientBuilder, SpringRestClientBuilderFactory}
 import dev.langchain4j.mcp.McpToolProvider
 import dev.langchain4j.mcp.client.transport.McpTransport
 import dev.langchain4j.mcp.client.transport.stdio.StdioMcpTransport
@@ -8,6 +9,7 @@ import dev.langchain4j.model.chat.ChatModel
 import dev.langchain4j.model.openai.OpenAiChatModel
 import dev.langchain4j.service.AiServices
 import dev.langchain4j.service.tool.ToolProvider
+import tutorial.ApiKeys
 
 import java.util
 
@@ -24,12 +26,13 @@ object McpGithubToolsExample {
    * <p>
    * You first need to build the Docker image of the GitHub MCP Server that is available at `mcp/git`.
    * See https://github.com/modelcontextprotocol/servers/tree/main/src/git to build the image.
-   * <p>
+   * <p> System.getenv("OPENAI_API_KEY")  modelName("gpt-4o-mini"
    * The communication with the GitHub MCP server is done directly via stdin/stdout.
    */
   @throws[Exception]
   def main(args: Array[String]): Unit = {
-    val model = OpenAiChatModel.builder.apiKey(System.getenv("OPENAI_API_KEY")).modelName("gpt-4o-mini").logRequests(true).logResponses(true).build
+    
+    val model = OpenAiChatModel.builder.baseUrl(ApiKeys.BASE_URL).apiKey(ApiKeys.OPENAI_API_KEY).modelName(ApiKeys.MODEL_NAME).httpClientBuilder(new SpringRestClientBuilderFactory().create()).logRequests(true).logResponses(true).build
     val transport = new StdioMcpTransport.Builder().command(util.List.of("/usr/local/bin/docker", "run", "-e", "GITHUB_PERSONAL_ACCESS_TOKEN", "-i", "mcp/git")).logEvents(true).build
     val mcpClient = new DefaultMcpClient.Builder().transport(transport).build
     val toolProvider = McpToolProvider.builder.mcpClients(util.List.of(mcpClient)).build

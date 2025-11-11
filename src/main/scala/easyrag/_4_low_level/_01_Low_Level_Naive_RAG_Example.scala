@@ -7,6 +7,7 @@ import dev.langchain4j.data.document.splitter.DocumentSplitters
 import dev.langchain4j.data.embedding.Embedding
 import dev.langchain4j.data.message.AiMessage
 import dev.langchain4j.data.segment.TextSegment
+import dev.langchain4j.http.client.spring.restclient.SpringRestClientBuilderFactory
 import dev.langchain4j.model.chat.ChatModel
 import dev.langchain4j.model.embedding.EmbeddingModel
 import dev.langchain4j.model.embedding.onnx.bgesmallenv15q.BgeSmallEnV15QuantizedEmbeddingModel
@@ -17,6 +18,7 @@ import dev.langchain4j.store.embedding.{EmbeddingMatch, EmbeddingSearchRequest, 
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore
 import easyrag.shared.Utils
 import easyrag.shared.Utils.OPENAI_API_KEY
+import tutorial.ApiKeys
 
 import java.time.Duration
 import java.util
@@ -56,7 +58,15 @@ object _01_Low_Level_Naive_RAG_Example {
     variables.put("information", information)
     val prompt = promptTemplate.apply(variables)
     // Send the prompt to the OpenAI chat model
-    val chatModel = OpenAiChatModel.builder.apiKey(Utils.OPENAI_API_KEY).modelName(GPT_4_O_MINI).timeout(Duration.ofSeconds(60)).build
+    val chatModel = OpenAiChatModel.builder
+        .baseUrl(ApiKeys.BASE_URL)
+        .apiKey(ApiKeys.OPENAI_API_KEY)
+        .modelName(ApiKeys.MODEL_NAME) //GPT_4_O_MINI)
+        .temperature(0.3)
+        .timeout(Duration.ofSeconds(60))
+        .logRequests(true)
+        .httpClientBuilder(new SpringRestClientBuilderFactory().create())
+        .logResponses(true).build
     val aiMessage = chatModel.chat(prompt.toUserMessage).aiMessage
     // See an answer from the model
     val answer = aiMessage.text

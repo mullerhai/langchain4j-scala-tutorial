@@ -1,6 +1,7 @@
 package tutorial
 
 import dev.langchain4j.agent.tool.Tool
+import dev.langchain4j.http.client.spring.restclient.SpringRestClientBuilderFactory
 import dev.langchain4j.memory.chat.MessageWindowChatMemory
 import dev.langchain4j.model.chat.ChatModel
 import dev.langchain4j.model.openai.OpenAiChatModel
@@ -35,7 +36,13 @@ object _10_ServiceWithToolsExample {
   }
 
   def main(args: Array[String]): Unit = {
-    val model = OpenAiChatModel.builder.apiKey(ApiKeys.OPENAI_API_KEY).build() // WARNING! Tools are not supported with "demo" API key.modelName(GPT_4_O_MINI).strictTools(true)// https://docs.langchain4j.dev/integrations/language-models/open-ai#structured-outputs-for-tools.build
+    val model = OpenAiChatModel.builder
+      .apiKey(ApiKeys.OPENAI_API_KEY) // WARNING! Tools are not supported with "demo" API key.modelName(GPT_4_O_MINI).strictTools(true)// https://docs.langchain4j.dev/integrations/language-models/open-ai#structured-outputs-for-tools.build
+      .baseUrl(ApiKeys.BASE_URL)
+      .modelName(ApiKeys.MODEL_NAME) //GPT_4_O_MINI)
+//    .timeout(ofSeconds(60))
+      .httpClientBuilder(new SpringRestClientBuilderFactory().create())
+       .build() // WARNING! Tools are not supported with "demo" API key.modelName(GPT_4_O_MINI).strictTools(true)// https://docs.langchain4j.dev/integrations/language-models/open-ai#structured-outputs-for-tools.build
     val assistant = AiServices.builder(classOf[_10_ServiceWithToolsExample.Assistant]).chatModel(model).tools(new _10_ServiceWithToolsExample.Calculator).chatMemory(MessageWindowChatMemory.withMaxMessages(10)).build
     val question = "What is the square root of the sum of the numbers of letters in the words \"hello\" and \"world\"?"
     val answer = assistant.chat(question)

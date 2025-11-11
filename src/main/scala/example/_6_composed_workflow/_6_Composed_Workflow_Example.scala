@@ -24,7 +24,7 @@ object _6_Composed_Workflow_Example {
    * and combine them into two larger composed agents that orchestrate the entire application process.
    */
   // 1. Define the model that will power the agents
-    private val CHAT_MODEL = ChatModelProvider.createChatModel
+  private val CHAT_MODEL = ChatModelProvider.createChatModel
 
   @throws[IOException]
   def main(args: Array[String]): Unit = {
