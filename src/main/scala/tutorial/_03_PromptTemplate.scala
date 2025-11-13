@@ -6,6 +6,7 @@ import dev.langchain4j.model.input.structured.{StructuredPrompt, StructuredPromp
 import dev.langchain4j.model.input.{Prompt, PromptTemplate}
 import dev.langchain4j.model.openai.OpenAiChatModel
 import dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI
+import utils.ApiKeys
 
 import java.time.Duration.ofSeconds
 import java.util

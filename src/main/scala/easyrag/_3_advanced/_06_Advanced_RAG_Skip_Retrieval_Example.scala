@@ -27,7 +27,8 @@ import java.nio.file.Path
 import java.util
 import java.util.Collections.{emptyList, singletonList}
 import easyrag.shared.{Assistant, Utils}
-import tutorial.ApiKeys
+import utils.ApiKeys
+
 object _06_Advanced_RAG_Skip_Retrieval_Example {
   /**
    * Please refer to {@link Naive_RAG_Example} for a basic context.

@@ -20,7 +20,7 @@ import dev.langchain4j.service.AiServices
 import dev.langchain4j.store.embedding.EmbeddingStore
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore
 import easyrag.shared.{Assistant, Utils}
-import tutorial.ApiKeys
+import utils.ApiKeys
 
 import java.nio.file.Path
 import java.util

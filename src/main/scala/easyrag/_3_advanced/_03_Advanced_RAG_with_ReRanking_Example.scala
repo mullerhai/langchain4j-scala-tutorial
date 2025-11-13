@@ -21,7 +21,8 @@ import dev.langchain4j.service.AiServices
 import dev.langchain4j.store.embedding.{EmbeddingStore, EmbeddingStoreIngestor}
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore
 import easyrag.shared.{Assistant, Utils}
-import tutorial.ApiKeys
+import utils.ApiKeys
+
 object _03_Advanced_RAG_with_ReRanking_Example {
   /**
    * Please refer to {@link Naive_RAG_Example} for a basic context.

@@ -5,6 +5,7 @@ import dev.langchain4j.http.client.spring.restclient.SpringRestClientBuilderFact
 import dev.langchain4j.model.chat.response.{ChatResponse, StreamingChatResponseHandler}
 import dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI
 import dev.langchain4j.model.openai.OpenAiStreamingChatModel
+import utils.ApiKeys
 
 import java.time.Duration.ofSeconds
 import java.util

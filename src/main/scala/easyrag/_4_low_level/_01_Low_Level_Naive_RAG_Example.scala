@@ -18,7 +18,7 @@ import dev.langchain4j.store.embedding.{EmbeddingMatch, EmbeddingSearchRequest, 
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore
 import easyrag.shared.Utils
 import easyrag.shared.Utils.OPENAI_API_KEY
-import tutorial.ApiKeys
+import utils.ApiKeys
 
 import java.time.Duration
 import java.util

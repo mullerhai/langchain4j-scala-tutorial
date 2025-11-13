@@ -23,7 +23,8 @@ import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore
 import java.nio.file.Path
 import java.util
 import easyrag.shared.{Assistant, Utils}
-import tutorial.ApiKeys
+import utils.ApiKeys
+
 object _07_Advanced_RAG_Multiple_Retrievers_Example {
   /**
    * Please refer to {@link Naive_RAG_Example} for a basic context.

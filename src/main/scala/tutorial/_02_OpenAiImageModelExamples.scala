@@ -6,6 +6,7 @@ import dev.langchain4j.model.image.ImageModel
 import dev.langchain4j.model.openai.OpenAiImageModel
 import dev.langchain4j.model.openai.OpenAiImageModelName.DALL_E_3
 import dev.langchain4j.model.output.Response
+import utils.ApiKeys
 
 object _02_OpenAiImageModelExamples {
   def main(args: Array[String]): Unit = {

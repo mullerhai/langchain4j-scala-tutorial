@@ -24,7 +24,7 @@ import java.nio.file.Path
 import java.util
 import java.util.Scanner
 import easyrag.shared.{Assistant, Utils}
-import tutorial.ApiKeys
+import utils.ApiKeys
 
 import scala.util.control.Breaks.break
 object _09_Advanced_RAG_Return_Sources_Example {

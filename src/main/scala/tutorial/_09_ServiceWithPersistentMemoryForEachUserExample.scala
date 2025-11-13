@@ -12,6 +12,7 @@ import dev.langchain4j.service.{AiServices, MemoryId, UserMessage}
 import dev.langchain4j.store.memory.chat.ChatMemoryStore
 import org.mapdb.Serializer.{INTEGER, STRING}
 import org.mapdb.{DB, DBMaker}
+import utils.ApiKeys
 
 import java.util
 

@@ -21,7 +21,8 @@ import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore
 
 import java.util.Arrays.asList
 import easyrag.shared.{Assistant, Utils}
-import tutorial.ApiKeys
+import utils.ApiKeys
+
 object _04_Advanced_RAG_with_Metadata_Example {
   /**
    * Please refer to {@link Naive_RAG_Example} for a basic context.

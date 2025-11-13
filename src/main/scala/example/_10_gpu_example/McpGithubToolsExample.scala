@@ -9,7 +9,7 @@ import dev.langchain4j.model.chat.ChatModel
 import dev.langchain4j.model.openai.OpenAiChatModel
 import dev.langchain4j.service.AiServices
 import dev.langchain4j.service.tool.ToolProvider
-import tutorial.ApiKeys
+import utils.ApiKeys
 
 import java.util
 

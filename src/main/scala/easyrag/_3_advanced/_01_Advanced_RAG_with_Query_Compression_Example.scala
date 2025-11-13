@@ -19,7 +19,7 @@ import dev.langchain4j.service.AiServices
 import dev.langchain4j.store.embedding.{EmbeddingStore, EmbeddingStoreIngestor}
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore
 import easyrag.shared.{Assistant, Utils}
-import tutorial.ApiKeys
+import utils.ApiKeys
 
 object _01_Advanced_RAG_with_Query_Compression_Example {
   /**

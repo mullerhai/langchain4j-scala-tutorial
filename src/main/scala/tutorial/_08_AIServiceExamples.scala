@@ -11,6 +11,7 @@ import dev.langchain4j.model.output.structured.Description
 import dev.langchain4j.service.*
 import tutorial.Hotel_Review_AI_Service_Example.IssueCategory.IssueCategory
 import tutorial.Sentiment_Extracting_AI_Service_Example.Sentiment.Sentiment
+import utils.ApiKeys
 
 import java.math.{BigDecimal, BigInteger}
 import java.time.Duration.ofSeconds

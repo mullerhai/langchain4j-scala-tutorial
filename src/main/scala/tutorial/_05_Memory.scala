@@ -8,6 +8,7 @@ import dev.langchain4j.memory.chat.TokenWindowChatMemory
 import dev.langchain4j.model.chat.response.{ChatResponse, StreamingChatResponseHandler}
 import dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI
 import dev.langchain4j.model.openai.{OpenAiStreamingChatModel, OpenAiTokenCountEstimator}
+import utils.ApiKeys
 
 import java.util.concurrent.{CompletableFuture, ExecutionException}
 

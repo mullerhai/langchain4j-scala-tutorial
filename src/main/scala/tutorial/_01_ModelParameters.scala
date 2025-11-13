@@ -4,6 +4,7 @@ import dev.langchain4j.http.client.spring.restclient.SpringRestClientBuilderFact
 import dev.langchain4j.model.chat.ChatModel
 import dev.langchain4j.model.openai.OpenAiChatModel
 import dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI
+import utils.ApiKeys
 
 import java.time.Duration.ofSeconds
 

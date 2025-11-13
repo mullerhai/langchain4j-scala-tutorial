@@ -7,6 +7,7 @@ import dev.langchain4j.model.chat.ChatModel
 import dev.langchain4j.model.openai.OpenAiChatModel
 import dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI
 import dev.langchain4j.service.AiServices
+import utils.ApiKeys
 
 object _10_ServiceWithToolsExample {
   // Please also check CustomerSupportApplication and CustomerSupportApplicationTest

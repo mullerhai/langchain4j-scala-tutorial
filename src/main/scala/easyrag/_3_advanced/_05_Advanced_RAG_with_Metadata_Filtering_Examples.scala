@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test
 import scala.jdk.FutureConverters.*
 import java.util.function.Function
 import easyrag.shared.{Assistant, Utils}
-import tutorial.ApiKeys
+import utils.ApiKeys
 
 import scala.jdk.FunctionConverters.enrichAsJavaFunction
 object _05_Advanced_RAG_with_Metadata_Filtering_Examples {

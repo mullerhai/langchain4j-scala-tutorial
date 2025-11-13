@@ -25,7 +25,8 @@ import dev.langchain4j.web.search.tavily.TavilyWebSearchEngine
 import java.nio.file.Path
 import java.util
 import easyrag.shared.{Assistant, Utils}
-import tutorial.ApiKeys
+import utils.ApiKeys
+
 object _08_Advanced_RAG_Web_Search_Example {
   /**
    * Please refer to {@link Naive_RAG_Example} for a basic context.
